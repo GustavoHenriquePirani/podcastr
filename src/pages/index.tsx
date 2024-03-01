@@ -13,7 +13,7 @@ type Episode = {
   title: string;
   thumbnail: string;
   members: string;
-  pusblishedAt: string;
+  publishedAt: string;
   duration: Number;
   durationAsString: string;
   description: string;
@@ -32,7 +32,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
         <h2>Ultimos lançamentos</h2>
 
         <ul>
-          {latestEpisodes.map(episode => {
+          {latestEpisodes.map((episode) => {
             return (
               <li key={episode.id}>
                 <Image
@@ -40,13 +40,14 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   height={192}
                   src={episode.thumbnail}
                   alt={episode.title}
+                  style={{ objectFit: 'cover' }}
                 />
                 <div className={styles.episodeDetails}>
                   <Link href={`/episodes/${episode.id}`}>
                     <>{episode.title}</>
                   </Link>
                   <p>{episode.members}</p>
-                  <span>{episode.pusblishedAt}</span>
+                  <span>{episode.publishedAt}</span>
                   <span>{episode.durationAsString}</span>
                 </div>
 
@@ -54,7 +55,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <img src="/play-green.svg" alt="botao play" />
                 </button>
               </li>
-            )
+            );
           })}
         </ul>
       </section>
@@ -64,46 +65,47 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 
         <table cellSpacing={0}>
           <thead>
-            <th></th>
-            <th>Podcast</th>
-            <th>Integrantes</th>
-            <th>Data</th>
-            <th>Duração</th>
-            <th></th>
+            <tr>
+              <th></th>
+              <th>Podcast</th>
+              <th>Integrantes</th>
+              <th>Data</th>
+              <th>Duração</th>
+              <th></th>
+            </tr>
           </thead>
           <tbody>
-            {allEpisodes.map(episode => {
-                return (
-                  <>
-                    <tr key={episode.id}>
-                      <td style={{width:110}}>
-                        <Image
-                          width={120}
-                          height={120}
-                          src={episode.thumbnail}
-                          alt={episode.title}
-                          objectFit="cover"
-                        />
-                      </td>
-                      <td>
-                        <Link href={`/episodes/${episode.id}`}>
-                          <>{episode.title}</>
-                        </Link>
-                      </td>
-                      <td>{episode.members}</td>
-                      <td style={{width:110}}>{episode.pusblishedAt}</td>
-                      <td>{episode.durationAsString}</td>
-                      <td>
-                        <button>
-                          <img src="/play-green.svg" alt="Botao Play" />
-                        </button>
-                      </td>
-                    </tr>
-                  </>
-                )
-              })}
+            {allEpisodes.map((episode) => {
+              return (
+                <>
+                  <tr key={episode.id}>
+                    <td style={{ width: 110 }}>
+                      <Image
+                        width={120}
+                        height={120}
+                        src={episode.thumbnail}
+                        alt={episode.title}
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </td>
+                    <td>
+                      <Link href={`/episodes/${episode.id}`}>
+                        <>{episode.title}</>
+                      </Link>
+                    </td>
+                    <td>{episode.members}</td>
+                    <td style={{ width: 110 }}>{episode.publishedAt}</td>
+                    <td>{episode.durationAsString}</td>
+                    <td>
+                      <button>
+                        <img src="/play-green.svg" alt="Botao Play" />
+                      </button>
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
           </tbody>
-
         </table>
       </section>
     </div>
@@ -111,17 +113,16 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-
-  const response = await api.get('episodes', {
+  const response = await api.get("episodes", {
     params: {
       _limit: 12,
       _sort: "+id",
-    }
+    },
   });
 
   const data = response.data;
 
-  const episodes = data.map(episode => {
+  const episodes = data.map((episode) => {
     return {
       id: episode.id,
       title: episode.title,
