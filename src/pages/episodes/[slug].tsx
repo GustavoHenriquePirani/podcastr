@@ -9,6 +9,7 @@ import { api } from "../../services/api";
 import Image from "next/image";
 import Link from "next/link";
 
+
 type Episode = {
   id: string;
   title: string;
@@ -25,6 +26,7 @@ type EpisodeProps = {
   episode: Episode;
 };
 
+
 export default function Episode({ episode }: EpisodeProps) {
   return (
     <div className={styles.episode}>
@@ -40,11 +42,11 @@ export default function Episode({ episode }: EpisodeProps) {
           width={700}
           height={160}
           src={episode.thumbnail}
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: "cover" }}
           alt="Imagem thumbnail"
         />
         <button className="playGreen" type="button">
-          <img src="/play.svg" alt="Tocar Episodio" />
+          <img src="/play.svg" alt="Tocar Episodio"/>
         </button>
       </div>
 
