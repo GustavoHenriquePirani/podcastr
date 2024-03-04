@@ -8,7 +8,8 @@ import { convertDurationToTimeString } from "../../utils/convertDurationToTimeSt
 import { api } from "../../services/api";
 import Image from "next/image";
 import Link from "next/link";
-
+import { usePlayer } from "../../../contexts/PlayerContexts";
+import Head from "next/head";
 
 type Episode = {
   id: string;
@@ -26,10 +27,14 @@ type EpisodeProps = {
   episode: Episode;
 };
 
-
 export default function Episode({ episode }: EpisodeProps) {
+  const { play } = usePlayer();
+
   return (
     <div className={styles.episode}>
+      <Head>
+        <title>{episode.title}</title>
+      </Head>
       <div className={styles.thumbnailContainer}>
         <button type="button">
           <Link href="/">
@@ -45,8 +50,12 @@ export default function Episode({ episode }: EpisodeProps) {
           style={{ objectFit: "cover" }}
           alt="Imagem thumbnail"
         />
-        <button className="playGreen" type="button">
-          <img src="/play.svg" alt="Tocar Episodio"/>
+        <button
+          className="playGreen"
+          type="button"
+          onClick={() => play(episode)}
+        >
+          <img src="/play.svg" alt="Tocar Episodio" />
         </button>
       </div>
 

@@ -7,7 +7,8 @@ import styles from "./home.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect } from "react";
-import { PlayerContext } from "../../contexts/PlayerContexts";
+import { PlayerContext, usePlayer } from "../../contexts/PlayerContexts";
+import Head from "next/head";
 
 type Episode = {
   id: string;
@@ -27,12 +28,15 @@ type HomeProps = {
 };
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
-  const {playList} = useContext(PlayerContext)
+  const { playList } = usePlayer();
 
   const episodeList = [...latestEpisodes, ...allEpisodes];
 
   return (
     <div className={styles.homepage}>
+      <Head>
+        <title>Home | Podcastr</title>
+      </Head>
       <section className={styles.latestEpisodes}>
         <h2>Ultimos lançamentos</h2>
 
@@ -45,7 +49,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   height={192}
                   src={episode.thumbnail}
                   alt={episode.title}
-                  style={{ objectFit: 'cover' }}
+                  style={{ objectFit: "cover" }}
                 />
                 <div className={styles.episodeDetails}>
                   <Link href={`/episodes/${episode.id}`}>
@@ -56,7 +60,10 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                <button type="button" onClick={() => playList(episodeList, index)}>
+                <button
+                  type="button"
+                  onClick={() => playList(episodeList, index)}
+                >
                   <img src="/play-green.svg" alt="botao play" />
                 </button>
               </li>
@@ -90,7 +97,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                         height={120}
                         src={episode.thumbnail}
                         alt={episode.title}
-                        style={{ objectFit: 'cover' }}
+                        style={{ objectFit: "cover" }}
                       />
                     </td>
                     <td>
@@ -103,7 +110,13 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                     <td>{episode.durationAsString}</td>
                     <td>
                       <button>
-                        <img src="/play-green.svg" alt="Botao Play" onClick={() => playList(episodeList, index + latestEpisodes.length)}/>
+                        <img
+                          src="/play-green.svg"
+                          alt="Botao Play"
+                          onClick={() =>
+                            playList(episodeList, index + latestEpisodes.length)
+                          }
+                        />
                       </button>
                     </td>
                   </tr>
